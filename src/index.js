@@ -1,5 +1,20 @@
 import React from 'react';
-import { render } from 'react-dom';
-import App from './App';
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { Router, useRouterHistory } from 'react-router';
+import { createHashHistory } from 'history';
+import rootReducer from './reducers/index';
+import routes from './routes';
+import ReduxPromise from 'redux-promise';
 
-render(<App />, document.getElementById('app'));
+const store = createStore(rootReducer, applyMiddleware(ReduxPromise));
+const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
+
+
+ReactDOM.render(
+	<Provider store={store}>
+		<Router history={appHistory} onUpdate={() => window.scrollTo(0, 0)} routes={routes} />
+	</Provider>
+	, document.getElementById('app'));
+
