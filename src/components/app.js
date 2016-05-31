@@ -5,11 +5,11 @@ import Footer from './footer';
 export default class App extends Component {
   render() {
     return (
-    	<div>
-	    	<NavBar currentUrl={this.props.location.pathname} />
-	    	{this.props.children}
-	    	<Footer />
-    	</div>
+      <div>
+        <NavBar currentUrl={this.props.location.pathname} />
+        {this.props.children}
+        <Footer />
+      </div>
     );
   }
 }
