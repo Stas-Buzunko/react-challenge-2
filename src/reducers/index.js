@@ -6,11 +6,11 @@ import ExportReducer from './reducer_export';
 import NavBarReducer from './reducer_navbar';
 
 const rootReducer = combineReducers({
-	colors: ColorReducer,
-	samples: SampleReducer,
-	mixer: MixerReducer,
-	modifiedSamples: ExportReducer,
-	currentLink: NavBarReducer
+  colors: ColorReducer,
+  samples: SampleReducer,
+  mixer: MixerReducer,
+  modifiedSamples: ExportReducer,
+  currentLink: NavBarReducer
 });
 
 export default rootReducer;

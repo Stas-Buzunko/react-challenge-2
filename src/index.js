@@ -9,12 +9,12 @@ import routes from './routes';
 import ReduxPromise from 'redux-promise';
 
 const store = createStore(rootReducer, applyMiddleware(ReduxPromise));
-const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
+const appHistory = useRouterHistory(createHashHistory)({ queryKey: false });
 
 
 ReactDOM.render(
-	<Provider store={store}>
-		<Router history={appHistory} onUpdate={() => window.scrollTo(0, 0)} routes={routes} />
-	</Provider>
-	, document.getElementById('app'));
+  <Provider store={store}>
+    <Router	history={appHistory} routes={routes} />
+  </Provider>
+, document.getElementById('app'));
 
