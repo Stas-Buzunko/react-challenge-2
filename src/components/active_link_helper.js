@@ -2,17 +2,14 @@ import { Link } from 'react-router';
 import React from 'react';
 
 
-const ActiveLinkHelper = ({
-  to,
-  currentLink,
-  children,
-  changeCurrentLink
-}) => {
+export default ({ to, currentLink, children, changeCurrentLink }) => {
+
   if (currentLink === to) {
     return (
       <Link to={to} className="navbar-link link-active">{children}</Link>
     );
   }
+
   return (
     <Link 
       to={to} 
@@ -23,5 +20,3 @@ const ActiveLinkHelper = ({
     </Link>
   );
 }
-
-export default ActiveLinkHelper;

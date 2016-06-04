@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
- removeSelection, fetchColors, selectAllSamples
-} from '../actions/index';
-import SelectUpToTen from '../components/explore_page/select_up_to_ten';
+import * as actions from '../actions/';
+import SelectUpToTen from '../components/select_up_to_ten';
 import RectangleDrawer from '../components/presets_page/rectangle_drawer';
 
 
 class PresetsPage extends Component {
+
   componentWillMount() {
     this.props.fetchColors();
   }
@@ -57,12 +56,12 @@ class PresetsPage extends Component {
     );
   }
 }
+
 function mapStateToProps(state) {
   return {
     selectedSamples: state.samples,
     schemes: state.colors.schemes
   }
 }
-export default connect(mapStateToProps, {
-  removeSelection, fetchColors, selectAllSamples
-})(PresetsPage)
+
+export default connect(mapStateToProps, actions)(PresetsPage)

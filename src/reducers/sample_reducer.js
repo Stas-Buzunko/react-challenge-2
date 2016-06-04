@@ -1,10 +1,10 @@
 import { 
-  SELECT_SAMPLE, SELECT_ALL_SAMPLES, REMOVE_SELECTION 
-} from '../actions/index';
+  SELECT_SAMPLE, 
+  SELECT_ALL_SAMPLES, 
+  REMOVE_SELECTION 
+} from '../actions/types';
 
-const INITIAL_STATE = { selectedSamples: [] };
-
-export default function(state = INITIAL_STATE, action) {
+export default function(state = [] , action) {
   switch(action.type) {
   case SELECT_SAMPLE:
     if (!state.length || state.length < 10) {

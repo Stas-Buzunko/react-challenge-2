@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { Router, useRouterHistory } from 'react-router';
 import { createHashHistory } from 'history';
-import rootReducer from './reducers/index';
+import rootReducer from './reducers/';
 import routes from './routes';
 import ReduxPromise from 'redux-promise';
 

@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
 import ColorPicker from 'react-color-picker';
 import { connect } from 'react-redux';
-import { 
-  colorChange, textColorChange, toggleBackground, 
-  changeExamples, selectSample, selectAllSamples, 
-  removeSelection, toggleColorPickerVisibility, 
-  mixerColorChange, changeMixerExamples
-} from '../actions/index';
+import * as actions from '../actions/';
 import ColorsPicker from '../components/create_page/colors_picker';
-import SelectUpToTen from '../components/create_page/select_up_to_ten';
+import SelectUpToTen from '../components/select_up_to_ten';
 import DarkerAndLigther from '../components/create_page/darker_and_lighter';
 import MixedWith from '../components/create_page/mixed_with';
 
@@ -112,8 +107,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { 
-  colorChange, textColorChange, toggleBackground, changeExamples, selectSample,
-  selectAllSamples, removeSelection, toggleColorPickerVisibility,
-  mixerColorChange, changeMixerExamples 
-})(CreatePage);
+export default connect(mapStateToProps, actions)(CreatePage);

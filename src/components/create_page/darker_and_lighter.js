@@ -1,56 +1,8 @@
 import React, { Component } from 'react';
 
 export default class DarkerAndLigther extends Component {
-  addSample(sample) {
-    const length = this.props.selectedSamples.length;
-    if (length == undefined || length < 10) {
-        this.props.onSelectSample(sample);
-    }
-  }
 
-  selectAllSamples() {
-    this.props.selectAllSamples(this.props.samples);
-  }
-
-  deleteSample(sample) {
-    const id = this.props.selectedSamples.indexOf(sample);
-    this.props.removeSelection(id);
-  }
-
-  handleToggleBackground() {
-    this.props.onToggleBackground('dark');
-  }
-
-  removeAllSelections() {
-    const intersection = [];
-    if (this.props.selectedSamples.length !== undefined) {
-      for (var i = 0; i < this.props.samples.length; i++) {
-        if (this.props.selectedSamples.indexOf(this.props.samples[i]) !== -1) {
-          intersection.push(this.props.samples[i]);
-        }
-      }
-    }
-
-    const ids = [];
-    intersection.map((sample) => {
-      const id = this.props.selectedSamples.indexOf(sample);
-      ids.push(id)
-    });
-
-    ids.sort().reverse().map((id) => {
-      this.props.removeSelection(id);
-    });
-  }
-
-  render() {
-    const intersection = [];
-    if (this.props.selectedSamples.length !== undefined) {
-      for (var i = 0; i < this.props.samples.length; i++) {
-        if (this.props.selectedSamples.indexOf(this.props.samples[i]) !== -1) {
-          intersection.push(this.props.samples[i]);
-        }
-      }
-    }
+  drawSamples(){
     const samples = this.props.samples.map((sample) => {
       const selectedSamples = this.props.selectedSamples;
       if (selectedSamples.length == undefined || selectedSamples.indexOf(
@@ -78,6 +30,56 @@ export default class DarkerAndLigther extends Component {
         );
       } 
     });
+
+    return samples;
+  }
+
+  addSample(sample) {
+    const length = this.props.selectedSamples.length;
+    if (length == undefined || length < 10) {
+        this.props.onSelectSample(sample);
+    }
+  }
+
+  selectAllSamples() {
+    this.props.selectAllSamples(this.props.samples);
+  }
+
+  deleteSample(sample) {
+    const id = this.props.selectedSamples.indexOf(sample);
+    this.props.removeSelection(id);
+  }
+
+  handleToggleBackground() {
+    this.props.onToggleBackground('dark');
+  }
+
+  findIntersection() {
+    let intersection = [];
+    if (this.props.selectedSamples.length !== undefined) {
+      for (var i = 0; i < this.props.samples.length; i++) {
+        if (this.props.selectedSamples.indexOf(this.props.samples[i]) !== -1) {
+          intersection.push(this.props.samples[i]);
+        }
+      }
+    }
+    return intersection;
+  }
+
+  removeAllSelections() {
+    const ids = [];
+    this.findIntersection().map((sample) => {
+      const id = this.props.selectedSamples.indexOf(sample);
+      ids.push(id)
+    });
+
+    ids.sort().reverse().map((id) => {
+      this.props.removeSelection(id);
+    });
+  }
+
+  render() {
+    
     return (
       <div style={{background: this.props.COLOR}}>
         <div 
@@ -93,7 +95,7 @@ export default class DarkerAndLigther extends Component {
                   :'rgb(245, 245, 245)'}`
               }}
             >
-              {samples}             
+              {this.drawSamples()}             
             </div>
           </div>
           <footer className="color-samples-footer">
@@ -115,7 +117,7 @@ export default class DarkerAndLigther extends Component {
             <button 
               onClick={this.removeAllSelections.bind(this)} 
               className="btn btn--danger" 
-              style={{display: `${intersection.length ? '' : 'none'}`}}
+              style={{display: `${this.findIntersection().length ? '' : 'none'}`}}
             >
               Remove all
             </button>

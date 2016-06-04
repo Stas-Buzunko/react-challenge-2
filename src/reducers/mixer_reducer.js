@@ -1,4 +1,7 @@
-import { MIXER_COLOR_CHANGE, CHANGE_MIXER_EXAMPLES } from '../actions/index';
+import { 
+	MIXER_COLOR_CHANGE, 
+	CHANGE_MIXER_EXAMPLES 
+} from '../actions/types';
 
 const INITIAL_STATE = { mixerExamples: [], mixerColor: '' };
 

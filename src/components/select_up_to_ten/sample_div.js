@@ -1,11 +1,11 @@
 import React from 'react';
 
-export default (props) => {
+export default ({ deleteSample, sample}) => {
   return (
     <div 
-      onClick={props.deleteSample}
+      onClick={deleteSample}
       className="selected__color selected__color--active"
-      style={{background: props.sample, height: 48, width: 48}} 
+      style={{background: sample, height: 48, width: 48}} 
     >
       <i 
       	className="fa fa-times selected__icon" 

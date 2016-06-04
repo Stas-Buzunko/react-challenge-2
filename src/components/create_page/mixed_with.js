@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ColorPicker from 'react-color-picker';
 
 export default class MixedWith extends Component {
+
   addSample(sample) {
     const length = this.props.selectedSamples.length;
     if (length == undefined || length < 10) {
@@ -23,26 +24,7 @@ export default class MixedWith extends Component {
     this.props.removeSelection(id);
   }
 
-  removeAllSelections() {
-    const intersection = [];
-    if (this.props.selectedSamples.length !== undefined) {
-      for (var i = 0; i < this.props.examples.length; i++) {
-        if (this.props.selectedSamples.indexOf(this.props.examples[i]) !== -1) {
-          intersection.push(this.props.examples[i]);
-        }
-      }
-    }
-    const ids = [];
-    intersection.map((sample) => {
-      const id = this.props.selectedSamples.indexOf(sample);
-      ids.push(id)
-    });
-    ids.sort().reverse().map((id) => {
-      this.props.removeSelection(id);
-    });
-  }
-
-  render() {
+  findIntersection() {
     const intersection = [];
     if (this.props.selectedSamples.length !== undefined) {
       for (var i = 0; i < this.props.examples.length; i++) {
@@ -51,6 +33,21 @@ export default class MixedWith extends Component {
         }
       }
     }
+    return intersection;
+  }
+
+  removeAllSelections() {
+    const ids = [];
+    this.findIntersection().map((sample) => {
+      const id = this.props.selectedSamples.indexOf(sample);
+      ids.push(id)
+    });
+    ids.sort().reverse().map((id) => {
+      this.props.removeSelection(id);
+    });
+  }
+
+  drawSamples() {
     const samples = this.props.examples.map((sample) => {
       const selectedSamples = this.props.selectedSamples;
       if (selectedSamples.length == undefined || selectedSamples.indexOf(
@@ -78,6 +75,10 @@ export default class MixedWith extends Component {
         );
       }
     });    
+    return samples;
+  }
+
+  render() {
     return (
       <div style={{background: this.props.COLOR}}>
         <div 
@@ -112,7 +113,7 @@ export default class MixedWith extends Component {
                   ? 'rgb(34,34,34)' 
                   :'rgb(245, 245, 245)'}`}}
             >
-              {samples}     
+              {this.drawSamples()}     
             </div>
           </div>
           <footer className="color-samples-footer">
@@ -134,7 +135,7 @@ export default class MixedWith extends Component {
             <button 
               onClick={this.removeAllSelections.bind(this)} 
               className="btn btn--danger" 
-              style={{display: `${intersection.length ? '' : 'none'}`}}
+              style={{display: `${this.findIntersection().length ? '' : 'none'}`}}
             >
               Remove all
             </button>

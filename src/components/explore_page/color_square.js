@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default (props) => {
+export default ({ selectSample, color}) => {
   return (
-    <div className="sample" onClick={() => props.selectSample(props.color)}>
-      <span className="sample__color" style={{background:props.color}}></span>
-      <span className="sample__name">{props.color}</span>
+    <div className="sample" onClick={() => selectSample(color)}>
+      <span className="sample__color" style={{background: color}}></span>
+      <span className="sample__name">{color}</span>
     </div>
   );
 }

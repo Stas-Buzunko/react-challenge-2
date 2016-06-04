@@ -1,14 +1,14 @@
 import React from 'react';
 import ColorPicker from 'react-color-picker';
 
-export default (props) => {
+export default ({COLOR, textColor, onColorChange}) => {
   return (
     <div>
-      <div className="center" style={{background: props.COLOR}}>
-        <h2 className="title" style={{color: props.textColor}}>
+      <div className="center" style={{background: COLOR}}>
+        <h2 className="title" style={{color: textColor}}>
           <strong>Choose your color</strong>
         </h2>
-        <ColorPicker defaultValue='#3b97d3' onDrag={ props.onColorChange } />
+        <ColorPicker defaultValue='#3b97d3' onDrag={ onColorChange } />
       </div>
     </div>
   );

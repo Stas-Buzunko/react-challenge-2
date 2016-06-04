@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { modifySamples, changeExportType } from '../actions/index';
+import * as actions from '../actions/';
 import ExportLink from '../components/export_page/export_link';
 
 class ExportPage extends Component {
@@ -8,11 +8,12 @@ class ExportPage extends Component {
     if (this.props.selectedSamples.length !== undefined) {
       const modifiedSamples = [];
       let i=1;
+      function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
+      function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
+      function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
+      function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
+      
       this.props.selectedSamples.map((sample) => {
-        function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
-        function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
-        function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
-        function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
         const R = hexToR(sample);
         const G = hexToG(sample);
         const B = hexToB(sample);
@@ -58,6 +59,7 @@ class ExportPage extends Component {
       })
     );
   }
+
   handleChange(sample, value) {
     let modifiedSamples = [];
     let samples = this.props.modifiedSamples;
@@ -67,6 +69,7 @@ class ExportPage extends Component {
     modifiedSamples[id] = item;
     this.setState({ modifiedSamples: modifiedSamples})
   }
+
   drawCode() {
     if (this.props.modifiedSamples.length !== undefined) {
       switch (this.props.export_type){
@@ -112,6 +115,7 @@ class ExportPage extends Component {
       }
     }
   }
+
   render() {
     return (
       <div className="content">
@@ -173,6 +177,7 @@ class ExportPage extends Component {
     );
   }
 }
+
 function mapStateToProps(state) {
   return {
     selectedSamples: state.samples,
@@ -180,6 +185,5 @@ function mapStateToProps(state) {
     export_type: state.colors.export_type
   }
 }
-export default connect(mapStateToProps, {
-  modifySamples, changeExportType
-})(ExportPage)
+
+export default connect(mapStateToProps, actions)(ExportPage)

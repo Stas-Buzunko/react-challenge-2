@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { removeSelection, fetchColors, selectSample } from '../actions/index';
+import * as actions from '../actions/';
 import SquareDrawer from '../components/explore_page/square_drawer';
-import SelectUpToTen from '../components/explore_page/select_up_to_ten';
+import SelectUpToTen from '../components/select_up_to_ten';
 
 
 class ExplorePage extends Component {
@@ -51,6 +51,5 @@ function mapStateToProps(state) {
     material: state.colors.material
   }
 }
-export default connect(mapStateToProps, { 
-  removeSelection, fetchColors, selectSample 
-})(ExplorePage);
+
+export default connect(mapStateToProps, actions)(ExplorePage);
