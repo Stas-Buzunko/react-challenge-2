@@ -1,119 +1,117 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/';
-import ExportLink from '../components/export_page/export_link';
+import ExportLink from '../components/ExportPage/ExportLink';
+
+function cutHex(h) { return (h.charAt(0) === '#') ? h.substring(1, 7) : h; }
+function hexToR(h) { return parseInt((cutHex(h)).substring(0, 2), 16); }
+function hexToG(h) { return parseInt((cutHex(h)).substring(2, 4), 16); }
+function hexToB(h) { return parseInt((cutHex(h)).substring(4, 6), 16); }
 
 class ExportPage extends Component {
   componentWillMount() {
     if (this.props.selectedSamples.length !== undefined) {
       const modifiedSamples = [];
-      let i=1;
-      function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
-      function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
-      function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
-      function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
-      
-      this.props.selectedSamples.map((sample) => {
+
+      this.props.selectedSamples.map((sample, i) => {
         const R = hexToR(sample);
         const G = hexToG(sample);
         const B = hexToB(sample);
 
         modifiedSamples.push({
-          hex: sample, 
-          value: `color-${i}`, 
-          rgb: `rgb(${R}, ${G}, ${B})`
+          hex: sample,
+          value: `color-${i}`,
+          rgb: `rgb(${R}, ${G}, ${B})`,
         });
-        i=i+1;
       });
       this.props.modifySamples(modifiedSamples);
     }
   }
-  
+
   drawTable() {
-    if (this.props.modifiedSamples.length == undefined) {
+    if (!this.props.modifiedSamples.length) {
       return (
         <tr>
           <td colSpan="4">Select Colors Before Exporting</td>
         </tr>
       );
     }
-    let i=1;
     return (
-      this.props.modifiedSamples.map((sample) => {
-        return (
-            <tr key={sample.hex}>
-            <td style={{background: sample.hex}}></td>
-            <td>{sample.hex}</td>
-            <td>{sample.rgb}</td>
-            <td>
-              <input 
-                className="form-control" 
-                type="text" 
-                value={sample.value}
-                onChange={event => this.handleChange(sample,
-                  event.target.value)}
-              />
-            </td>
-          </tr>
-        );
-      })
+      this.props.modifiedSamples.map(sample => (
+        <tr key={sample.hex}>
+          <td style={{ background: sample.hex }}></td>
+          <td>{sample.hex}</td>
+          <td>{sample.rgb}</td>
+          <td>
+            <input
+              className="form-control"
+              type="text"
+              value={sample.value}
+              onChange={event => this.handleChange(sample,
+                event.target.value)}
+            />
+          </td>
+        </tr>
+      ))
     );
   }
 
   handleChange(sample, value) {
-    let modifiedSamples = [];
-    let samples = this.props.modifiedSamples;
-    let id = samples.indexOf(sample);
-    let item = this.props.modifiedSamples[id];
+    const modifiedSamples = [];
+    const samples = this.props.modifiedSamples;
+    const id = samples.indexOf(sample);
+    const item = this.props.modifiedSamples[id];
     item.value = value;
     modifiedSamples[id] = item;
-    this.setState({ modifiedSamples: modifiedSamples})
+    this.setState({ modifiedSamples });
   }
 
   drawCode() {
+    let exportSamples;
     if (this.props.modifiedSamples.length !== undefined) {
-      switch (this.props.export_type){
-      case 'Sass':
-        return (this.props.modifiedSamples.map((sample) => {
-          return (
+      switch (this.props.export_type) {
+        case 'Sass':
+          exportSamples = this.props.modifiedSamples.map(sample => (
             <code key={sample.hex}>
               <span className="code__colored" >
-                ${sample.value}: 
+                ${sample.value}:
               </span>
               <span>
                 &nbsp;{sample.hex};<br></br>
               </span>
             </code>
+            )
           );
-        }));
-      case 'Less':
-        return (this.props.modifiedSamples.map((sample) => {
-          return (
+          break;
+        case 'Less':
+          exportSamples = this.props.modifiedSamples.map(sample => (
             <code key={sample.hex}>
               <span className="code__colored" >
-                @{sample.value}: 
+                @{sample.value}:
               </span>
               <span>
                 &nbsp;{sample.hex};<br></br>
               </span>
             </code>
+            )
           );
-        }));
-      case 'Stylus':
-        return (this.props.modifiedSamples.map((sample) => {
-          return (
+          break;
+        case 'Stylus':
+          exportSamples = this.props.modifiedSamples.map(sample => (
             <code key={sample.hex}>
               <span className="code__colored" >
-                {sample.value} = 
+                {sample.value} =
               </span>
               <span>
                 &nbsp;{sample.hex}<br></br>
               </span>
             </code>
+            )
           );
-        }));
+          break;
       }
     }
+    return exportSamples;
   }
 
   render() {
@@ -139,27 +137,28 @@ class ExportPage extends Component {
             </tbody>
           </table>
           <div className="preprops">
-            <div 
-              style={{display: `${this.props.selectedSamples.length 
-                  ? 'block' 
-                  : 'none'}`}}
+            <div
+              style={{ display: `${this.props.selectedSamples.length
+                  ? 'block'
+                  : 'none'}`,
+              }}
             >
               <h2 className="export__title">Export your code</h2>
               <div className="preprops__links">
-                <ExportLink 
-                  changeExportType={this.props.changeExportType} 
+                <ExportLink
+                  changeExportType={this.props.changeExportType}
                   currentType={this.props.export_type}
                 >
                   Sass
                 </ExportLink>
-                <ExportLink 
-                  changeExportType={this.props.changeExportType} 
+                <ExportLink
+                  changeExportType={this.props.changeExportType}
                   currentType={this.props.export_type}
                 >
                   Less
                 </ExportLink>
-                <ExportLink 
-                  changeExportType={this.props.changeExportType} 
+                <ExportLink
+                  changeExportType={this.props.changeExportType}
                   currentType={this.props.export_type}
                 >
                   Stylus
@@ -178,12 +177,18 @@ class ExportPage extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    selectedSamples: state.samples,
-    modifiedSamples: state.modifiedSamples,
-    export_type: state.colors.export_type
-  }
-}
+const mapStateToProps = state => ({
+  selectedSamples: state.samples,
+  modifiedSamples: state.modifiedSamples,
+  export_type: state.colors.export_type,
+});
 
-export default connect(mapStateToProps, actions)(ExportPage)
+export default connect(mapStateToProps, actions)(ExportPage);
+
+ExportPage.propTypes = {
+  selectedSamples: PropTypes.array,
+  modifySamples: PropTypes.func.isRequired,
+  modifiedSamples: PropTypes.array,
+  changeExportType: PropTypes.func.isRequired,
+  export_type: PropTypes.string,
+};

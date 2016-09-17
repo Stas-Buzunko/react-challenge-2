@@ -1,17 +1,17 @@
 import React from 'react';
-import { Route, IndexRoute, Router } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 
-import App from './components/app';
-import CreatePage from './containers/create_page';
-import ExplorePage from './containers/explore_page';
-import ExportPage from './containers/export_page';
-import PresetsPage from './containers/presets_page';
+import App from './components/App';
+import CreatePage from './containers/CreatePage';
+import ExplorePage from './containers/ExplorePage';
+import ExportPage from './containers/ExportPage';
+import PresetsPage from './containers/PresetsPage';
 
 export default (
-  <Route path='/' component={App}>
+  <Route path="/" component={App}>
     <IndexRoute component={CreatePage} />
-    <Route path='explore' component={ExplorePage} />
-    <Route path='export' component={ExportPage} />
-    <Route path='presets' component={PresetsPage} />
+    <Route path="explore" component={ExplorePage} />
+    <Route path="export" component={ExportPage} />
+    <Route path="presets" component={PresetsPage} />
   </Route>
 );

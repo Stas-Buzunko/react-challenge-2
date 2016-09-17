@@ -1,16 +1,16 @@
 import { combineReducers } from 'redux';
-import colors from './color_reducer';
-import samples from './sample_reducer';
-import mixer from './mixer_reducer';
-import modifiedSamples from './export_reducer';
-import currentLink from './navbar_reducer';
+import colors from './colorReducer';
+import samples from './sampleReducer';
+import mixer from './mixerReducer';
+import modifiedSamples from './exportReducer';
+import currentLink from './navbarReducer';
 
 const rootReducer = combineReducers({
   colors,
   samples,
   mixer,
   modifiedSamples,
-  currentLink
+  currentLink,
 });
 
 export default rootReducer;

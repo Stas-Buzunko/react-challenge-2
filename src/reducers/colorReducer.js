@@ -29,49 +29,28 @@ const INITIAL_STATE = {
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
   case COLOR_CHANGE: 
-    return {
-      ...state, 
-      COLOR: action.payload 
-    };
+    return { ...state, COLOR: action.payload };
   case TEXT_COLOR_CHANGE:
-    return {
-      ...state, 
-      textColor: action.payload 
-    };
+    return { ...state, textColor: action.payload };
   case TOGGLE_BACKGROUND:
     if (action.payload == 'dark') {
-      return {
-        ...state, 
-        darkBackgroundDarker: !state.darkBackgroundDarker 
-      };
+      return { ...state, darkBackgroundDarker: !state.darkBackgroundDarker };
     } else {
-      return {
-        ...state, 
-        darkBackgroundMixed: !state.darkBackgroundMixed 
-      };
+      return { ...state, darkBackgroundMixed: !state.darkBackgroundMixed };
     }
   case TOGGLE_COLOR_PICKER_VISIBILITY:
-    return {
-      ...state, 
-      colorPickerVisible: !state.colorPickerVisible
-    };
+    return { ...state, colorPickerVisible: !state.colorPickerVisible };
   case CHANGE_EXAMPLES:
-    return {
-      ...state, 
-      examples: action.payload 
-    };
+    return { ...state, examples: action.payload };
   case FETCH_COLORS:
     return {
-      ...state, 
-      flat: action.payload.data.presets.flat, 
+      ...state,
+      flat: action.payload.data.presets.flat,
       material: action.payload.data.presets.material,
       schemes: action.payload.data.schemes
     };
   case CHANGE_EXPORT_TYPE:
-    return {
-      ...state,
-      export_type:action.payload
-    };
+    return { ...state, export_type:action.payload };
   default:
     return state;
   }
